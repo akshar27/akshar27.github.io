@@ -19,8 +19,8 @@
       --accent: #4f46e5;
       --accent-ink: #ffffff;
       --accent-soft: rgba(79, 70, 229, 0.1);
-      --line: rgba(19, 20, 28, 0.09);
-      --line-soft: rgba(19, 20, 28, 0.055);
+      --line: rgba(19, 20, 28, 0.14);
+      --line-soft: rgba(19, 20, 28, 0.08);
       --shadow-sm: 0 1px 2px rgba(19, 20, 28, 0.04);
       --shadow-lg: 0 20px 40px -20px rgba(19, 20, 28, 0.22);
       --radius: 16px;
@@ -33,15 +33,15 @@
 
     [data-theme="dark"] {
       --bg: #0b0c11;
-      --surface: #16171f;
+      --surface: #1a1b25;
       --ink: #f5f6fb;
       --text: #c4c7d1;
-      --muted: #838793;
+      --muted: #8d92a0;
       --accent: #8b85f5;
       --accent-ink: #101018;
-      --accent-soft: rgba(139, 133, 245, 0.14);
-      --line: rgba(245, 246, 251, 0.11);
-      --line-soft: rgba(245, 246, 251, 0.06);
+      --accent-soft: rgba(139, 133, 245, 0.16);
+      --line: rgba(245, 246, 251, 0.18);
+      --line-soft: rgba(245, 246, 251, 0.1);
       --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
       --shadow-lg: 0 20px 45px -18px rgba(0, 0, 0, 0.6);
       --invert-bg: #1c1d29;
@@ -564,6 +564,10 @@
     @media (max-width: 900px) {
       .project-grid {
         grid-template-columns: 1fr 1fr;
+      }
+
+      .project-card:last-child {
+        grid-column: 1 / -1;
       }
     }
 
