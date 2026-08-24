@@ -196,13 +196,14 @@
 
     .idx {
       font-variant-numeric: tabular-nums;
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--muted);
-      border: 1px solid var(--line);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      background: var(--accent-soft);
       border-radius: 999px;
-      width: 1.6rem;
-      height: 1.6rem;
+      width: 1.9rem;
+      height: 1.9rem;
+      flex-shrink: 0;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -210,10 +211,14 @@
 
     .eyebrow {
       display: inline-block;
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.11em;
       text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .accent-text {
       color: var(--accent);
     }
 
@@ -359,26 +364,36 @@
     }
 
     .section-head {
-      margin-bottom: 2.6rem;
+      margin-bottom: 2.8rem;
     }
 
     .section-head .eyebrow-row {
-      margin-bottom: 0.9rem;
+      margin-bottom: 1.1rem;
+      width: 100%;
+    }
+
+    .section-head .eyebrow-row::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+      margin-left: 0.4rem;
     }
 
     .section-head h2 {
-      font-size: clamp(1.6rem, 3vw, 2.15rem);
+      font-size: clamp(2rem, 3.6vw, 2.75rem);
       font-weight: 700;
-      letter-spacing: -0.015em;
+      letter-spacing: -0.02em;
       color: var(--ink);
       max-width: 640px;
-      line-height: 1.15;
+      line-height: 1.12;
     }
 
     .section-head p {
-      margin-top: 0.7rem;
+      margin-top: 0.9rem;
       color: var(--muted);
       max-width: 560px;
+      font-size: 1.05rem;
     }
 
     .about-text {
@@ -671,9 +686,8 @@
       border-top: none;
     }
 
-    .contact-section .idx {
-      border-color: var(--invert-line);
-      color: var(--invert-muted);
+    .contact-section .eyebrow-row::after {
+      background: var(--invert-line);
     }
 
     .contact-section .eyebrow {
@@ -830,7 +844,8 @@
     <section id="about" class="container reveal">
       <div class="section-head">
         <div class="eyebrow-row"><span class="idx">02</span><span class="eyebrow">About</span></div>
-        <h2 class="serif">Production-minded engineering, end to end.</h2>
+        <h2 class="serif">Production-minded engineering, <span class="accent-text">end to end.</span></h2>
+        <p>The short version of how I think and work.</p>
       </div>
       <p class="about-text">
         I'm a results-driven engineer with experience building scalable applications, LLM-powered tools, automation pipelines, and cloud-native systems. I enjoy working across the stack, debugging complex issues, improving performance, and turning product ideas into clean, usable software.
@@ -840,7 +855,8 @@
     <section id="work" class="container reveal">
       <div class="section-head">
         <div class="eyebrow-row"><span class="idx">03</span><span class="eyebrow">Experience · 2020 – 2023</span></div>
-        <h2 class="serif">Where I've built.</h2>
+        <h2 class="serif">Where I've <span class="accent-text">built.</span></h2>
+        <p>Two roles, two countries, one habit of shipping things that hold up.</p>
       </div>
 
       <div class="timeline">
@@ -882,7 +898,7 @@
     <section id="projects" class="container reveal">
       <div class="section-head">
         <div class="eyebrow-row"><span class="idx">04</span><span class="eyebrow">Selected work</span></div>
-        <h2 class="serif">Things I've shipped.</h2>
+        <h2 class="serif">Things I've <span class="accent-text">shipped.</span></h2>
         <p>A few projects that show my full-stack, AI, and product-building experience.</p>
       </div>
 
@@ -925,7 +941,7 @@
     <section id="skills" class="container reveal">
       <div class="section-head">
         <div class="eyebrow-row"><span class="idx">05</span><span class="eyebrow">Toolkit</span></div>
-        <h2 class="serif">Tools of the trade.</h2>
+        <h2 class="serif">Tools of the <span class="accent-text">trade.</span></h2>
         <p>Technologies I use to build and ship production-ready systems.</p>
       </div>
 
@@ -994,7 +1010,8 @@
     <section id="education" class="container reveal">
       <div class="section-head">
         <div class="eyebrow-row"><span class="idx">06</span><span class="eyebrow">Education</span></div>
-        <h2 class="serif">Where I learned.</h2>
+        <h2 class="serif">Where I <span class="accent-text">learned.</span></h2>
+        <p>From Gujarat to the Bay Area — the two places that shaped how I build.</p>
       </div>
       <div class="education-grid">
         <div class="education-item">
@@ -1013,7 +1030,7 @@
     <section id="beyond" class="container reveal">
       <div class="section-head">
         <div class="eyebrow-row"><span class="idx">07</span><span class="eyebrow">Beyond work</span></div>
-        <h2 class="serif">Runner, hiker, weekend volleyball player.</h2>
+        <h2 class="serif">Runner, hiker, weekend <span class="accent-text">volleyball player.</span></h2>
         <p>When I'm not building software, I'm training for the next race or exploring a new trail.</p>
       </div>
       <div class="toolkit-grid">
@@ -1039,7 +1056,7 @@
     <section id="contact" class="container contact-section reveal">
       <div class="section-head">
         <div class="eyebrow-row"><span class="idx">08</span><span class="eyebrow">Get in touch</span></div>
-        <h2 class="serif">Let's build something useful.</h2>
+        <h2 class="serif">Let's build something <span class="accent-text">useful.</span></h2>
         <p>I'm open to full-stack, backend, AI engineering, and cloud-focused opportunities. Reach out if you want to collaborate or discuss a role.</p>
       </div>
       <div class="contact-links">
