@@ -5,6 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Akshar Gothi - Full-Stack and AI Engineer portfolio" />
   <title>Akshar Gothi | Full-Stack &amp; AI Engineer</title>
+
+  <!-- Favicon: inline indigo "AG" monogram, no separate asset needed -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%234f46e5'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='26' font-weight='700' fill='%23ffffff' text-anchor='middle'%3EAG%3C/text%3E%3C/svg%3E" />
+
+  <!-- Social sharing -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Akshar Gothi | Full-Stack & AI Engineer" />
+  <meta property="og:description" content="I build scalable web apps, backend systems, LLM-powered tools, automation pipelines, and cloud-native products." />
+  <meta property="og:url" content="https://akshar27.github.io/" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Akshar Gothi | Full-Stack & AI Engineer" />
+  <meta name="twitter:description" content="I build scalable web apps, backend systems, LLM-powered tools, automation pipelines, and cloud-native products." />
+
+  <!-- Structured data for search engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Akshar Gothi",
+    "url": "https://akshar27.github.io/",
+    "jobTitle": "Full-Stack & AI Engineer",
+    "email": "mailto:akshargothi70@gmail.com",
+    "sameAs": [
+      "https://github.com/akshar27",
+      "https://www.linkedin.com/in/akshar-gothi/"
+    ],
+    "alumniOf": [
+      { "@type": "CollegeOrUniversity", "name": "San Francisco State University" },
+      { "@type": "CollegeOrUniversity", "name": "Chandubhai S. Patel Institute of Technology, CHARUSAT" }
+    ]
+  }
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -60,6 +93,12 @@
       scroll-behavior: smooth;
     }
 
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+    }
+
     body {
       font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: var(--bg);
@@ -68,7 +107,8 @@
       transition: background 0.25s ease, color 0.25s ease;
     }
 
-    a {
+    a,
+    a:visited {
       color: inherit;
       text-decoration: none;
     }
@@ -90,6 +130,18 @@
       max-width: 980px;
       margin: 0 auto;
       padding: 0 1.5rem;
+    }
+
+    /* Scroll progress bar */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: var(--accent);
+      z-index: 200;
+      transition: width 0.1s ease-out;
     }
 
     /* Nav */
@@ -128,14 +180,38 @@
     }
 
     .nav-links a {
+      position: relative;
       transition: color 0.2s ease;
+      padding-bottom: 0.2rem;
     }
 
     .nav-links a:hover {
       color: var(--accent);
     }
 
-    .theme-toggle {
+    .nav-links a.active {
+      color: var(--accent);
+    }
+
+    .nav-links a.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -0.1rem;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 999px;
+    }
+
+    .nav-buttons {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .theme-toggle,
+    .cmdk-trigger {
       border: 1px solid var(--line);
       background: transparent;
       color: var(--text);
@@ -147,14 +223,36 @@
       transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
     }
 
-    .theme-toggle:hover {
+    .theme-toggle:hover,
+    .cmdk-trigger:hover {
       border-color: var(--accent);
       color: var(--accent);
       background: var(--accent-soft);
     }
 
+    .cmdk-trigger {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .cmdk-trigger kbd {
+      font-family: inherit;
+      font-size: 0.72rem;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 0.05rem 0.35rem;
+      background: var(--surface);
+    }
+
     @media (max-width: 720px) {
       .nav-links a:not(.nav-cta) {
+        display: none;
+      }
+
+      .cmdk-trigger .cmdk-label {
         display: none;
       }
     }
@@ -176,6 +274,27 @@
       background: radial-gradient(circle, var(--accent-soft) 0%, transparent 70%);
       pointer-events: none;
       z-index: 0;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(500px circle at var(--x, 50%) var(--y, 20%), var(--accent-soft), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero:hover::after {
+      opacity: 0.6;
+    }
+
+    @media (prefers-reduced-motion: reduce), (hover: none) {
+      .hero::after {
+        display: none;
+      }
     }
 
     .hero-inner {
@@ -279,6 +398,35 @@
     .btn-link:hover {
       border-color: var(--accent);
       color: var(--accent);
+    }
+
+    .email-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .copy-btn {
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--muted);
+      width: 1.9rem;
+      height: 1.9rem;
+      border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      line-height: 1;
+      transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+    }
+
+    .copy-btn:hover,
+    .copy-btn:focus-visible {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
     }
 
     .hero-meta {
@@ -506,7 +654,7 @@
     /* Projects */
     .project-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 1.4rem;
     }
 
@@ -559,16 +707,6 @@
       font-size: 0.74rem;
       font-weight: 600;
       letter-spacing: 0.01em;
-    }
-
-    @media (max-width: 900px) {
-      .project-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .project-card:last-child {
-        grid-column: 1 / -1;
-      }
     }
 
     @media (max-width: 600px) {
@@ -627,6 +765,68 @@
 
     @media (max-width: 700px) {
       .toolkit-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* GitHub activity */
+    .github-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 1.4rem;
+      align-items: stretch;
+    }
+
+    .github-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1.2rem;
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .github-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .github-card img {
+      max-width: 100%;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .github-card .fallback {
+      display: none;
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    .github-card .fallback a {
+      color: var(--accent);
+      font-weight: 600;
+      border-bottom: 1px solid currentColor;
+    }
+
+    .github-card.img-failed img {
+      display: none;
+    }
+
+    .github-card.img-failed .fallback {
+      display: block;
+    }
+
+    .github-streak-card {
+      grid-column: 1 / -1;
+    }
+
+    @media (max-width: 800px) {
+      .github-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -752,6 +952,19 @@
       background: var(--invert-bg);
     }
 
+    footer .footer-hint {
+      margin-top: 0.4rem;
+      font-size: 0.78rem;
+      opacity: 0.75;
+    }
+
+    footer .footer-hint kbd {
+      font-family: inherit;
+      border: 1px solid var(--invert-line);
+      border-radius: 4px;
+      padding: 0.05rem 0.35rem;
+    }
+
     .reveal {
       opacity: 0;
       transform: translateY(18px);
@@ -761,6 +974,144 @@
     .reveal.visible {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+
+    /* Back to top */
+    .back-to-top {
+      position: fixed;
+      right: 1.4rem;
+      bottom: 1.4rem;
+      width: 2.7rem;
+      height: 2.7rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      font-size: 1rem;
+      box-shadow: var(--shadow-lg);
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease, border-color 0.2s ease, color 0.2s ease;
+      z-index: 90;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .back-to-top:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Copy toast */
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 1.6rem;
+      transform: translate(-50%, 12px);
+      background: var(--invert-bg);
+      color: var(--invert-text);
+      padding: 0.65rem 1.1rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      box-shadow: var(--shadow-lg);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 250;
+    }
+
+    .toast.visible {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    /* Command palette */
+    .cmdk-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(11, 12, 17, 0.55);
+      display: none;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 12vh 1.2rem 1.2rem;
+      z-index: 300;
+    }
+
+    .cmdk-overlay.open {
+      display: flex;
+    }
+
+    .cmdk-panel {
+      width: 100%;
+      max-width: 520px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+
+    .cmdk-input {
+      width: 100%;
+      border: none;
+      border-bottom: 1px solid var(--line-soft);
+      background: transparent;
+      color: var(--ink);
+      font: inherit;
+      font-size: 1rem;
+      padding: 1.1rem 1.3rem;
+      outline: none;
+    }
+
+    .cmdk-list {
+      max-height: 320px;
+      overflow-y: auto;
+      padding: 0.5rem;
+    }
+
+    .cmdk-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      padding: 0.75rem 0.9rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 0.92rem;
+      color: var(--text);
+    }
+
+    .cmdk-item .cmdk-item-hint {
+      font-size: 0.76rem;
+      color: var(--muted);
+    }
+
+    .cmdk-item.active {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .cmdk-empty {
+      padding: 1.4rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
     }
 
     @media (max-width: 900px) {
@@ -786,20 +1137,33 @@
         flex-direction: column;
         align-items: flex-start;
       }
+
+      .back-to-top {
+        right: 1rem;
+        bottom: 1rem;
+      }
     }
   </style>
 </head>
 
 <body>
+  <div class="scroll-progress" id="scroll-progress"></div>
+
   <nav class="navbar" aria-label="Main navigation">
     <div class="nav-inner">
       <a class="logo" href="#top">Akshar Gothi<span class="dot">.</span></a>
-      <div class="nav-links">
+      <div class="nav-links" id="nav-links">
         <a href="#about">About</a>
         <a href="#work">Work</a>
         <a href="#projects">Projects</a>
         <a href="#skills">Skills</a>
+        <a href="#github">GitHub</a>
         <a href="#contact" class="nav-cta">Contact</a>
+      </div>
+      <div class="nav-buttons">
+        <button class="cmdk-trigger" id="cmdk-trigger" type="button" aria-label="Open quick navigation">
+          <span class="cmdk-label">Quick nav</span><kbd>⌘K</kbd>
+        </button>
         <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode">Dark</button>
       </div>
     </div>
@@ -815,7 +1179,10 @@
         </p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="./Akshar_Gothi_Resume.pdf" download>Download résumé</a>
-          <a class="btn-link" href="mailto:akshargothi70@gmail.com">or email me directly</a>
+          <span class="email-row">
+            <a class="btn-link" href="mailto:akshargothi70@gmail.com">or email me directly</a>
+            <button class="copy-btn" id="copy-email" type="button" aria-label="Copy email address" title="Copy email address">⧉</button>
+          </span>
         </div>
         <div class="hero-meta">
           <strong>3+ years</strong> of engineering experience · Open to Full-Stack, Backend &amp; AI roles
@@ -828,15 +1195,15 @@
         <p>React · Node.js · Python · AWS · LLMs · RAG</p>
         <div class="stats">
           <div class="stat">
-            <strong>3+</strong>
+            <strong data-count="3">3+</strong>
             <span>Years exp.</span>
           </div>
           <div class="stat">
-            <strong>2M+</strong>
+            <strong data-count="2">2M+</strong>
             <span>Products</span>
           </div>
           <div class="stat">
-            <strong>50%</strong>
+            <strong data-count="50">50%</strong>
             <span>Faster ML flow</span>
           </div>
         </div>
@@ -858,12 +1225,28 @@
 
     <section id="work" class="container reveal">
       <div class="section-head">
-        <div class="eyebrow-row"><span class="idx">03</span><span class="eyebrow">Experience · 2020 – 2023</span></div>
+        <div class="eyebrow-row"><span class="idx">03</span><span class="eyebrow">Experience · 2020 – 2025</span></div>
         <h2 class="serif">Where I've <span class="accent-text">built.</span></h2>
-        <p>Two roles, two countries, one habit of shipping things that hold up.</p>
+        <p>Three roles, two countries, one habit of shipping things that hold up.</p>
       </div>
 
       <div class="timeline">
+        <article class="timeline-item">
+          <div class="timeline-meta">
+            <span>Aug 2024 — Dec 2025</span>
+            <span class="place">San Francisco, USA</span>
+          </div>
+          <div class="timeline-body">
+            <h3>San Francisco State University</h3>
+            <div class="timeline-role">Graduate Research Assistant · React, Node.js, TypeScript, Redux, WebSockets</div>
+            <ul>
+              <li>Built HealthShare Insights, a full-stack React and Node.js platform delivering six interactive analytics dashboards and a RAG chatbot for real-time health-data exploration.</li>
+              <li>Developed reusable React chart components (pie, radar, timeline, word cloud) with TypeScript and Chart.js, using Redux to streamline reuse and cut chart development time.</li>
+              <li>Collaborated with faculty from data ingestion through frontend visualization, using lazy loading, code splitting, and Jest testing, which shortened deployment cycles by two weeks.</li>
+            </ul>
+          </div>
+        </article>
+
         <article class="timeline-item">
           <div class="timeline-meta">
             <span>Jul 2021 — Aug 2023</span>
@@ -939,6 +1322,17 @@
             <span class="tag">AWS</span>
           </div>
         </article>
+
+        <article class="project-card">
+          <h3><a href="http://18.218.238.186/" target="_blank" rel="noopener noreferrer">HealthShare Insights</a></h3>
+          <p>Health analytics platform analyzing 10K+ COVID-era social media posts, with interactive dashboards and a RAG chatbot over vector search.</p>
+          <div class="tags">
+            <span class="tag">RAG</span>
+            <span class="tag">Qdrant</span>
+            <span class="tag">React</span>
+            <span class="tag">PostgreSQL</span>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -965,8 +1359,8 @@
           <div class="chip-row">
             <span class="chip">React.js</span>
             <span class="chip">Next.js</span>
-            <span class="chip">HTML</span>
-            <span class="chip">CSS</span>
+            <span class="chip">Redux / Zustand</span>
+            <span class="chip">Chart.js</span>
             <span class="chip">Tailwind</span>
           </div>
         </div>
@@ -976,16 +1370,20 @@
             <span class="chip">Node.js</span>
             <span class="chip">Express.js</span>
             <span class="chip">Django</span>
+            <span class="chip">FastAPI</span>
             <span class="chip">REST APIs</span>
+            <span class="chip">GraphQL</span>
+            <span class="chip">WebSockets</span>
           </div>
         </div>
         <div class="toolkit-group">
-          <h3>Databases</h3>
+          <h3>Databases &amp; Testing</h3>
           <div class="chip-row">
             <span class="chip">PostgreSQL</span>
             <span class="chip">MySQL</span>
             <span class="chip">MongoDB</span>
-            <span class="chip">Firebase</span>
+            <span class="chip">Qdrant</span>
+            <span class="chip">Jest</span>
           </div>
         </div>
         <div class="toolkit-group">
@@ -1011,9 +1409,31 @@
       </div>
     </section>
 
+    <section id="github" class="container reveal">
+      <div class="section-head">
+        <div class="eyebrow-row"><span class="idx">06</span><span class="eyebrow">Live from GitHub</span></div>
+        <h2 class="serif">Code, <span class="accent-text">as it happens.</span></h2>
+        <p>Pulled straight from my GitHub profile — updates automatically, no copy-pasting required.</p>
+      </div>
+      <div class="github-grid">
+        <div class="github-card" id="gh-stats-card">
+          <img id="gh-stats-img" alt="Akshar Gothi's GitHub stats" loading="lazy" />
+          <div class="fallback">GitHub stats are taking a moment to load. <a href="https://github.com/akshar27" target="_blank" rel="noopener noreferrer">View the profile directly →</a></div>
+        </div>
+        <div class="github-card" id="gh-langs-card">
+          <img id="gh-langs-img" alt="Akshar Gothi's most-used languages" loading="lazy" />
+          <div class="fallback">Language stats are taking a moment to load. <a href="https://github.com/akshar27" target="_blank" rel="noopener noreferrer">View the profile directly →</a></div>
+        </div>
+        <div class="github-card github-streak-card" id="gh-streak-card">
+          <img id="gh-streak-img" alt="Akshar Gothi's GitHub contribution streak" loading="lazy" />
+          <div class="fallback">Streak stats are taking a moment to load. <a href="https://github.com/akshar27" target="_blank" rel="noopener noreferrer">View the profile directly →</a></div>
+        </div>
+      </div>
+    </section>
+
     <section id="education" class="container reveal">
       <div class="section-head">
-        <div class="eyebrow-row"><span class="idx">06</span><span class="eyebrow">Education</span></div>
+        <div class="eyebrow-row"><span class="idx">07</span><span class="eyebrow">Education</span></div>
         <h2 class="serif">Where I <span class="accent-text">learned.</span></h2>
         <p>From Gujarat to the Bay Area — the two places that shaped how I build.</p>
       </div>
@@ -1021,19 +1441,19 @@
         <div class="education-item">
           <div class="date">2023 – 2025</div>
           <h3>San Francisco State University</h3>
-          <p>MS in Computer Science</p>
+          <p>MS in Computer Science · GPA 3.63/4</p>
         </div>
         <div class="education-item">
           <div class="date">2017 – 2021</div>
           <h3>Charotar University of Science &amp; Technology</h3>
-          <p>B.Tech in Information Technology</p>
+          <p>B.Tech in Information Technology · GPA 3.5/4</p>
         </div>
       </div>
     </section>
 
     <section id="beyond" class="container reveal">
       <div class="section-head">
-        <div class="eyebrow-row"><span class="idx">07</span><span class="eyebrow">Beyond work</span></div>
+        <div class="eyebrow-row"><span class="idx">08</span><span class="eyebrow">Beyond work</span></div>
         <h2 class="serif">Runner, hiker, weekend <span class="accent-text">volleyball player.</span></h2>
         <p>When I'm not building software, I'm training for the next race or exploring a new trail.</p>
       </div>
@@ -1059,7 +1479,7 @@
 
     <section id="contact" class="container contact-section reveal">
       <div class="section-head">
-        <div class="eyebrow-row"><span class="idx">08</span><span class="eyebrow">Get in touch</span></div>
+        <div class="eyebrow-row"><span class="idx">09</span><span class="eyebrow">Get in touch</span></div>
         <h2 class="serif">Let's build something <span class="accent-text">useful.</span></h2>
         <p>I'm open to full-stack, backend, AI engineering, and cloud-focused opportunities. Reach out if you want to collaborate or discuss a role.</p>
       </div>
@@ -1072,12 +1492,24 @@
   </main>
 
   <footer>
-    © <span id="year"></span> Akshar Gothi. Built with HTML, CSS, and JavaScript.
+    <div>© <span id="year"></span> Akshar Gothi. Built with HTML, CSS, and JavaScript.</div>
+    <div class="footer-hint">Press <kbd>⌘K</kbd> (or <kbd>Ctrl K</kbd>) to jump anywhere on this site.</div>
   </footer>
 
+  <button class="back-to-top" id="back-to-top" type="button" aria-label="Back to top">↑</button>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <div class="cmdk-overlay" id="cmdk-overlay" role="dialog" aria-modal="true" aria-label="Quick navigation">
+    <div class="cmdk-panel">
+      <input class="cmdk-input" id="cmdk-input" type="text" placeholder="Jump to a section, or run a command…" autocomplete="off" spellcheck="false" />
+      <div class="cmdk-list" id="cmdk-list"></div>
+    </div>
+  </div>
+
   <script>
+    /* ---------- Reveal-on-scroll ---------- */
     const revealElements = document.querySelectorAll(".reveal");
-    const observer = new IntersectionObserver(
+    const revealObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
@@ -1087,9 +1519,12 @@
       },
       { threshold: 0.12 }
     );
-    revealElements.forEach((element) => observer.observe(element));
+    revealElements.forEach((element) => revealObserver.observe(element));
     document.getElementById("year").textContent = new Date().getFullYear();
 
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    /* ---------- Theme toggle ---------- */
     const themeToggle = document.getElementById("theme-toggle");
     const root = document.documentElement;
 
@@ -1109,14 +1544,36 @@
       }
     }
 
+    function isDarkTheme() {
+      return root.getAttribute("data-theme") === "dark";
+    }
+
+    function applyGithubCardTheme() {
+      const dark = isDarkTheme();
+      const params = dark
+        ? "theme=dark&hide_border=true&bg_color=00000000"
+        : "theme=default&hide_border=true&bg_color=ffffff00&title_color=4f46e5&icon_color=4f46e5&text_color=4a4e5a";
+      const streakParams = dark
+        ? "theme=dark&hide_border=true&background=00000000"
+        : "theme=default&hide_border=true&background=ffffff00&ring=4f46e5&fire=4f46e5&currStreakLabel=4f46e5";
+
+      const statsImg = document.getElementById("gh-stats-img");
+      const langsImg = document.getElementById("gh-langs-img");
+      const streakImg = document.getElementById("gh-streak-img");
+
+      if (statsImg) statsImg.src = `https://github-readme-stats.vercel.app/api?username=akshar27&show_icons=true&count_private=true&${params}`;
+      if (langsImg) langsImg.src = `https://github-readme-stats.vercel.app/api/top-langs/?username=akshar27&layout=compact&${params}`;
+      if (streakImg) streakImg.src = `https://streak-stats.demolab.com?user=akshar27&${streakParams}`;
+    }
+
     if (readStoredTheme() === "dark") {
       root.setAttribute("data-theme", "dark");
       themeToggle.textContent = "Light";
     }
 
     themeToggle.addEventListener("click", () => {
-      const isDark = root.getAttribute("data-theme") === "dark";
-      if (isDark) {
+      const dark = isDarkTheme();
+      if (dark) {
         root.removeAttribute("data-theme");
         writeStoredTheme("light");
         themeToggle.textContent = "Dark";
@@ -1125,6 +1582,274 @@
         writeStoredTheme("dark");
         themeToggle.textContent = "Light";
       }
+      applyGithubCardTheme();
+    });
+
+    /* ---------- GitHub live stats (with graceful, timed-out fallback) ---------- */
+    applyGithubCardTheme();
+    [
+      ["gh-stats-img", "gh-stats-card"],
+      ["gh-langs-img", "gh-langs-card"],
+      ["gh-streak-img", "gh-streak-card"],
+    ].forEach(([imgId, cardId]) => {
+      const img = document.getElementById(imgId);
+      const card = document.getElementById(cardId);
+      if (!img || !card) return;
+
+      let settled = false;
+      const markFailed = () => {
+        if (settled) return;
+        settled = true;
+        card.classList.add("img-failed");
+      };
+      const markLoaded = () => {
+        settled = true;
+      };
+
+      img.addEventListener("error", markFailed);
+      img.addEventListener("load", markLoaded);
+
+      // Some hosts/environments stall the request instead of erroring outright
+      // (no error event ever fires), so don't rely on `error` alone — give it
+      // a bounded window before treating it as failed.
+      setTimeout(() => {
+        if (!settled && !(img.complete && img.naturalWidth > 0)) {
+          markFailed();
+        }
+      }, 6000);
+    });
+
+    /* ---------- Scroll progress bar ---------- */
+    const progressBar = document.getElementById("scroll-progress");
+    function updateScrollProgress() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      progressBar.style.width = `${Math.min(100, Math.max(0, pct))}%`;
+    }
+    window.addEventListener("scroll", updateScrollProgress, { passive: true });
+    window.addEventListener("resize", updateScrollProgress);
+    updateScrollProgress();
+
+    /* ---------- Active nav link on scroll ---------- */
+    const navLinks = Array.from(document.querySelectorAll(".nav-links a"));
+    const sections = navLinks
+      .map((link) => document.querySelector(link.getAttribute("href")))
+      .filter(Boolean);
+
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const link = navLinks.find((a) => a.getAttribute("href") === `#${entry.target.id}`);
+          if (!link) return;
+          if (entry.isIntersecting) {
+            navLinks.forEach((a) => a.classList.remove("active"));
+            link.classList.add("active");
+          }
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px", threshold: 0 }
+    );
+    sections.forEach((section) => sectionObserver.observe(section));
+
+    /* ---------- Back to top ---------- */
+    const backToTop = document.getElementById("back-to-top");
+    window.addEventListener(
+      "scroll",
+      () => {
+        backToTop.classList.toggle("visible", window.scrollY > window.innerHeight * 0.6);
+      },
+      { passive: true }
+    );
+    backToTop.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
+    });
+
+    /* ---------- Toast ---------- */
+    const toast = document.getElementById("toast");
+    let toastTimer = null;
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("visible");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("visible"), 2200);
+    }
+
+    /* ---------- Copy email ---------- */
+    const copyEmailBtn = document.getElementById("copy-email");
+    copyEmailBtn.addEventListener("click", async () => {
+      const email = "akshargothi70@gmail.com";
+      try {
+        await navigator.clipboard.writeText(email);
+        showToast("Email copied to clipboard");
+      } catch (err) {
+        showToast("Copy failed — email: " + email);
+      }
+    });
+
+    /* ---------- Animated stat counters ---------- */
+    const statEls = document.querySelectorAll(".stat strong[data-count]");
+    function animateCount(el) {
+      const target = parseFloat(el.getAttribute("data-count"));
+      const suffix = el.textContent.replace(/^[\d.]+/, "");
+      if (prefersReducedMotion || Number.isNaN(target)) return;
+      const duration = 900;
+      const start = performance.now();
+      function tick(now) {
+        const progress = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const value = Math.round(target * eased * 10) / 10;
+        el.textContent = `${value % 1 === 0 ? value : value.toFixed(1)}${suffix}`;
+        if (progress < 1) {
+          requestAnimationFrame(tick);
+        } else {
+          el.textContent = `${target}${suffix}`;
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+    if (statEls.length) {
+      const statObserver = new IntersectionObserver(
+        (entries, obs) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              animateCount(entry.target);
+              obs.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.6 }
+      );
+      statEls.forEach((el) => statObserver.observe(el));
+    }
+
+    /* ---------- Hero cursor glow ---------- */
+    const heroEl = document.querySelector(".hero");
+    if (heroEl && !prefersReducedMotion) {
+      heroEl.addEventListener("mousemove", (event) => {
+        const rect = heroEl.getBoundingClientRect();
+        heroEl.style.setProperty("--x", `${event.clientX - rect.left}px`);
+        heroEl.style.setProperty("--y", `${event.clientY - rect.top}px`);
+      });
+    }
+
+    /* ---------- Command palette ---------- */
+    const cmdkOverlay = document.getElementById("cmdk-overlay");
+    const cmdkInput = document.getElementById("cmdk-input");
+    const cmdkList = document.getElementById("cmdk-list");
+    const cmdkTrigger = document.getElementById("cmdk-trigger");
+
+    const commands = [
+      { label: "Go to About", hint: "Section", run: () => scrollToId("about") },
+      { label: "Go to Work", hint: "Section", run: () => scrollToId("work") },
+      { label: "Go to Projects", hint: "Section", run: () => scrollToId("projects") },
+      { label: "Go to Skills", hint: "Section", run: () => scrollToId("skills") },
+      { label: "Go to GitHub activity", hint: "Section", run: () => scrollToId("github") },
+      { label: "Go to Education", hint: "Section", run: () => scrollToId("education") },
+      { label: "Go to Beyond work", hint: "Section", run: () => scrollToId("beyond") },
+      { label: "Go to Contact", hint: "Section", run: () => scrollToId("contact") },
+      { label: "Download résumé", hint: "PDF", run: () => window.open("./Akshar_Gothi_Resume.pdf", "_blank") },
+      { label: "Email Akshar", hint: "akshargothi70@gmail.com", run: () => (window.location.href = "mailto:akshargothi70@gmail.com") },
+      { label: "Open GitHub profile", hint: "github.com/akshar27", run: () => window.open("https://github.com/akshar27", "_blank", "noopener,noreferrer") },
+      { label: "Open LinkedIn", hint: "linkedin.com/in/akshar-gothi", run: () => window.open("https://www.linkedin.com/in/akshar-gothi/", "_blank", "noopener,noreferrer") },
+      { label: "Toggle dark mode", hint: "Theme", run: () => themeToggle.click() },
+    ];
+
+    function scrollToId(id) {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth" });
+    }
+
+    let activeIndex = 0;
+    let filtered = commands;
+
+    function renderCmdk() {
+      const query = cmdkInput.value.trim().toLowerCase();
+      filtered = commands.filter((c) => c.label.toLowerCase().includes(query));
+      activeIndex = 0;
+      if (!filtered.length) {
+        cmdkList.innerHTML = '<div class="cmdk-empty">No matches</div>';
+        return;
+      }
+      cmdkList.innerHTML = filtered
+        .map(
+          (c, i) =>
+            `<div class="cmdk-item${i === 0 ? " active" : ""}" data-index="${i}">
+              <span>${c.label}</span>
+              <span class="cmdk-item-hint">${c.hint}</span>
+            </div>`
+        )
+        .join("");
+    }
+
+    function setActive(index) {
+      activeIndex = (index + filtered.length) % filtered.length;
+      Array.from(cmdkList.children).forEach((child, i) => {
+        child.classList.toggle("active", i === activeIndex);
+      });
+      const activeEl = cmdkList.children[activeIndex];
+      if (activeEl) activeEl.scrollIntoView({ block: "nearest" });
+    }
+
+    function openCmdk() {
+      cmdkOverlay.classList.add("open");
+      cmdkInput.value = "";
+      renderCmdk();
+      setTimeout(() => cmdkInput.focus(), 10);
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeCmdk() {
+      cmdkOverlay.classList.remove("open");
+      document.body.style.overflow = "";
+    }
+
+    function runActive() {
+      const cmd = filtered[activeIndex];
+      if (cmd) {
+        closeCmdk();
+        cmd.run();
+      }
+    }
+
+    cmdkTrigger.addEventListener("click", openCmdk);
+
+    document.addEventListener("keydown", (event) => {
+      const isK = event.key === "k" || event.key === "K";
+      if ((event.metaKey || event.ctrlKey) && isK) {
+        event.preventDefault();
+        cmdkOverlay.classList.contains("open") ? closeCmdk() : openCmdk();
+        return;
+      }
+      if (event.key === "Escape" && cmdkOverlay.classList.contains("open")) {
+        closeCmdk();
+      }
+    });
+
+    cmdkInput.addEventListener("input", renderCmdk);
+
+    cmdkInput.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+        setActive(activeIndex + 1);
+      } else if (event.key === "ArrowUp") {
+        event.preventDefault();
+        setActive(activeIndex - 1);
+      } else if (event.key === "Enter") {
+        event.preventDefault();
+        runActive();
+      }
+    });
+
+    cmdkList.addEventListener("click", (event) => {
+      const item = event.target.closest(".cmdk-item");
+      if (!item) return;
+      activeIndex = Number(item.getAttribute("data-index"));
+      runActive();
+    });
+
+    cmdkOverlay.addEventListener("click", (event) => {
+      if (event.target === cmdkOverlay) closeCmdk();
     });
   </script>
 </body>
