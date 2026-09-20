@@ -113,6 +113,31 @@
       text-decoration: none;
     }
 
+    .skip-link {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 400;
+      background: var(--accent);
+      color: var(--accent-ink);
+      padding: 0.75rem 1.25rem;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 0.9rem;
+      transform: translateY(-150%);
+      transition: transform 0.2s ease;
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .skip-link {
+        transition: none;
+      }
+    }
+
     ul {
       list-style: none;
     }
@@ -247,13 +272,80 @@
       background: var(--surface);
     }
 
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+      width: 2.3rem;
+      height: 2.3rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: transparent;
+      cursor: pointer;
+      padding: 0;
+      flex-shrink: 0;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 14px;
+      height: 1.5px;
+      background: var(--text);
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .nav-toggle[aria-expanded="true"] span:nth-child(1) {
+      transform: translateY(5.5px) rotate(45deg);
+    }
+
+    .nav-toggle[aria-expanded="true"] span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-toggle[aria-expanded="true"] span:nth-child(3) {
+      transform: translateY(-5.5px) rotate(-45deg);
+    }
+
     @media (max-width: 720px) {
-      .nav-links a:not(.nav-cta) {
-        display: none;
+      .nav-toggle {
+        display: inline-flex;
       }
 
       .cmdk-trigger .cmdk-label {
         display: none;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.1rem;
+        background: var(--bg);
+        border-bottom: 1px solid var(--line-soft);
+        box-shadow: var(--shadow-lg);
+        padding: 0 1.5rem;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        pointer-events: none;
+        transition: max-height 0.25s ease, opacity 0.2s ease, padding 0.25s ease;
+      }
+
+      .nav-links.open {
+        max-height: 420px;
+        opacity: 1;
+        pointer-events: auto;
+        padding: 1.1rem 1.5rem 1.5rem;
+      }
+
+      .nav-links a {
+        display: block !important;
+        font-size: 1rem;
       }
     }
 
@@ -1143,10 +1235,55 @@
         bottom: 1rem;
       }
     }
+
+    /* Print */
+    @media print {
+      .navbar,
+      .scroll-progress,
+      .back-to-top,
+      .toast,
+      .cmdk-overlay,
+      .skip-link,
+      footer .footer-hint,
+      .copy-btn {
+        display: none !important;
+      }
+
+      body {
+        background: #ffffff;
+        color: #111111;
+      }
+
+      .hero::before,
+      .hero::after {
+        display: none;
+      }
+
+      section {
+        border-top: 1px solid #ddd;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .contact-section {
+        background: #ffffff;
+        color: #111111;
+      }
+
+      a,
+      a:visited {
+        text-decoration: underline;
+      }
+
+      .btn-primary {
+        border: 1px solid #111111;
+      }
+    }
   </style>
 </head>
 
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
   <div class="scroll-progress" id="scroll-progress"></div>
 
   <nav class="navbar" aria-label="Main navigation">
@@ -1165,6 +1302,9 @@
           <span class="cmdk-label">Quick nav</span><kbd>⌘K</kbd>
         </button>
         <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode">Dark</button>
+        <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </div>
   </nav>
@@ -1185,7 +1325,7 @@
           </span>
         </div>
         <div class="hero-meta">
-          <strong>3+ years</strong> of engineering experience · Open to Full-Stack, Backend &amp; AI roles
+          <strong id="exp-years-meta">3+ years</strong> of engineering experience · Open to Full-Stack, Backend &amp; AI roles
         </div>
       </div>
 
@@ -1195,7 +1335,7 @@
         <p>React · Node.js · Python · AWS · LLMs · RAG</p>
         <div class="stats">
           <div class="stat">
-            <strong data-count="3">3+</strong>
+            <strong data-count="3" id="stat-years">3+</strong>
             <span>Years exp.</span>
           </div>
           <div class="stat">
@@ -1211,7 +1351,7 @@
     </div>
   </header>
 
-  <main>
+  <main id="main-content">
     <section id="about" class="container reveal">
       <div class="section-head">
         <div class="eyebrow-row"><span class="idx">02</span><span class="eyebrow">About</span></div>
@@ -1523,6 +1663,32 @@
     document.getElementById("year").textContent = new Date().getFullYear();
 
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    /* ---------- Mobile nav toggle ---------- */
+    const navToggle = document.getElementById("nav-toggle");
+    const navLinksEl = document.getElementById("nav-links");
+
+    function closeMobileNav() {
+      navLinksEl.classList.remove("open");
+      navToggle.setAttribute("aria-expanded", "false");
+    }
+
+    navToggle.addEventListener("click", () => {
+      const isOpen = navLinksEl.classList.toggle("open");
+      navToggle.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    navLinksEl.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", closeMobileNav);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeMobileNav();
+    });
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 720) closeMobileNav();
+    });
 
     /* ---------- Theme toggle ---------- */
     const themeToggle = document.getElementById("theme-toggle");
